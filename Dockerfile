@@ -10,6 +10,7 @@ RUN dpkg --add-architecture i386; \
     apt-get install --no-install-recommends -y  wget \
                                                 lzma \
                                                 xz-utils \
+                                                lib32stdc++6 \
                                                 libgtk2.0-0:i386 \
                                                 libxslt1.1:i386 \
                                                 libxml2:i386 \
