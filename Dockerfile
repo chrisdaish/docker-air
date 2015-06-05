@@ -1,23 +1,19 @@
-FROM ubuntu:14.04.2
+FROM centos:6.6
 
 MAINTAINER Chris Daish <chrisdaish@gmail.com>
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV ADOBEAIRPACKAGE adobeair_2.6.0.19170-devolo1_i386.deb
+ENV ADOBEAIRPACKAGE adobeair-2.6.0.rpm
 
-RUN dpkg --add-architecture i386; \
-    apt-get update; \
-    apt-get install --no-install-recommends -y  wget \
-                                                lzma \
-                                                xz-utils \
-                                                lib32stdc++6 \
-                                                libgtk2.0-0:i386 \
-                                                libxslt1.1:i386 \
-                                                libxml2:i386 \
-                                                libnss3:i386 \
-                                                libxaw7:i386; \
-    rm -rf /var/lib/apt/lists/*
-
-RUN wget --quiet http://update.devolo.com/linux/apt/pool/main/a/adobeair/$ADOBEAIRPACKAGE  -O /tmp/$ADOBEAIRPACKAGE; \
-    dpkg -i /tmp/$ADOBEAIRPACKAGE; \
-    rm /tmp/$ADOBEAIRPACKAGE
+RUN curl -sk https://drive.google.com/uc?export=download&id=0B502esw4L9MCdFhRZlBwZy0xOUU -o /tmp/$ADOBEAIRPACKAGE; \
+    touch /usr/lib/libgnome-keyring-fake; \ 
+    yum install --setopt=tsflags=nodocs -y  libstdc++.i686 \
+                                            libstdc++.x86_64 \
+                                            gtk2.i686 \
+                                            nss.i686 \
+                                            nss.x86_64 \
+                                            rpm-libs.i686 \
+                                            rpm-libs.x86_64 \
+                                            /tmp/$ADOBEAIRPACKAGE; \
+    yum clean all; \
+    rm -rf /var/cache/yum; \
+    rm -f /tmp/$ADOBEAIRPACKAGE
